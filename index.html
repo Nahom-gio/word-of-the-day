@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Word of the Day</title>
+    <style>
+      body { font-family: system-ui, Arial; max-width: 760px; margin: 40px auto; padding: 0 16px; }
+      .card { border: 1px solid #ddd; border-radius: 12px; padding: 16px; }
+      h1 { margin: 0 0 8px; }
+      .meta { color: #666; font-size: 14px; }
+      .word { font-size: 36px; font-weight: 700; margin: 10px 0; }
+      .def { font-size: 18px; line-height: 1.5; }
+      code { background: #f6f6f6; padding: 2px 6px; border-radius: 6px; }
+    </style>
+  </head>
+  <body>
+    <h1>Word of the Day</h1>
+    <p class="meta">Auto-updated daily by GitHub Actions.</p>
+
+    <div class="card" id="card">Loading…</div>
+
+    <script>
+      async function main() {
+        const res = await fetch("./data/today.json", { cache: "no-store" });
+        const data = await res.json();
+        const card = document.getElementById("card");
+        card.innerHTML = `
+          <div class="meta">${data.date}</div>
+          <div class="word">${data.word}</div>
+          <div class="def"><b>Meaning:</b> ${data.definition}</div>
+          ${data.example ? `<div class="def"><b>Example:</b> ${data.example}</div>` : ""}
+          ${data.source ? `<div class="meta">Source: <code>${data.source}</code></div>` : ""}
+        `;
+      }
+      main().catch(() => {
+        document.getElementById("card").textContent = "Failed to load data.";
+      });
+    </script>
+  </body>
+</html>
